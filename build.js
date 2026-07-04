@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Maven Builders — static site build. Zero dependencies.
-// Usage: node build.js   →  outputs the servable site into ./public
+// Usage: node build.js   →  outputs the servable site into ./docs
 "use strict";
 
 const fs = require("node:fs");
@@ -9,7 +9,7 @@ const path = require("node:path");
 const ROOT = __dirname;
 const SRC = path.join(ROOT, "src");
 const CONTENT = path.join(ROOT, "content");
-const OUT = path.join(ROOT, "public");
+const OUT = path.join(ROOT, "docs");
 
 // ---- clean output ----
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -18,13 +18,13 @@ fs.mkdirSync(OUT, { recursive: true });
 // ---- copy static files ----
 copyDir(path.join(SRC, "css"), path.join(OUT, "css"));
 copyDir(path.join(SRC, "assets"), path.join(OUT, "assets"));
-copyDir(path.join(SRC, "images"), path.join(OUT, "images"));   // your site photos (optional)
+copyDir(path.join(SRC, "images"), path.join(OUT, "images")); // your site photos (optional)
 copyDir(path.join(CONTENT, "photos"), path.join(OUT, "photos")); // testimonial photos
 
 // ---- load layout + testimonials ----
 const layout = fs.readFileSync(path.join(SRC, "layout.html"), "utf8");
 const testimonials = JSON.parse(
-  fs.readFileSync(path.join(CONTENT, "testimonials.json"), "utf8")
+  fs.readFileSync(path.join(CONTENT, "testimonials.json"), "utf8"),
 );
 
 // ---- build pages ----
@@ -48,7 +48,10 @@ for (const file of fs.readdirSync(pagesDir)) {
   let html = layout.replace("{{title}}", title).replace("{{content}}", body);
 
   // active nav state
-  html = html.replace(new RegExp("\\{\\{active:" + name + "\\}\\}", "g"), " active");
+  html = html.replace(
+    new RegExp("\\{\\{active:" + name + "\\}\\}", "g"),
+    " active",
+  );
   html = html.replace(/\{\{active:[a-z-]+\}\}/g, "");
 
   fs.writeFileSync(path.join(OUT, file), html);
@@ -96,13 +99,15 @@ ${gallery}
   fs.writeFileSync(path.join(OUT, `testimonial-${slug}.html`), html);
   console.log("  built", `testimonial-${slug}.html`);
 }
-console.log("Done → public/");
+console.log("Done → docs/");
 
 // ---- helpers ----
 function renderTestimonials() {
   return testimonials
     .map((t) => {
-      const detail = t.detail ? `<span class="t-detail">${esc(t.detail)}</span>` : "";
+      const detail = t.detail
+        ? `<span class="t-detail">${esc(t.detail)}</span>`
+        : "";
       return `<figure class="t-card">
   ${avatarHtml(t)}
   <blockquote>\u201C${esc(t.quote)}\u201D</blockquote>
@@ -120,14 +125,24 @@ function avatarHtml(t) {
 }
 
 function slugify(s) {
-  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return String(s)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 function initials(name) {
   const words = name
     .split(/\s+/)
-    .filter((w) => /^[A-Za-z]/.test(w) && !["the", "and"].includes(w.toLowerCase()));
-  return words.slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "MB";
+    .filter(
+      (w) => /^[A-Za-z]/.test(w) && !["the", "and"].includes(w.toLowerCase()),
+    );
+  return (
+    words
+      .slice(0, 2)
+      .map((w) => w[0].toUpperCase())
+      .join("") || "MB"
+  );
 }
 
 function esc(s) {

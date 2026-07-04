@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // Maven Builders — local dev server. Zero dependencies.
 // Usage: node serve.js   →  http://localhost:8080
-// Serves ./public and fakes the POST /api/contact endpoint so the form can be tested.
+// Serves ./docs and fakes the POST /api/contact endpoint so the form can be tested.
 "use strict";
 
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const PUBLIC = path.join(__dirname, "public");
+const PAGES = path.join(__dirname, "docs");
 const PORT = process.env.PORT || 8080;
 
 const MIME = {
@@ -42,8 +42,8 @@ http
 
     let urlPath = decodeURIComponent(req.url.split("?")[0]);
     if (urlPath.endsWith("/")) urlPath += "index.html";
-    const file = path.normalize(path.join(PUBLIC, urlPath));
-    if (!file.startsWith(PUBLIC)) {
+    const file = path.normalize(path.join(PAGES, urlPath));
+    if (!file.startsWith(PAGES)) {
       res.writeHead(403);
       return res.end("Forbidden");
     }
@@ -52,8 +52,10 @@ http
         res.writeHead(404, { "Content-Type": "text/plain" });
         return res.end("Not found");
       }
-      res.writeHead(200, { "Content-Type": MIME[path.extname(file)] || "application/octet-stream" });
+      res.writeHead(200, {
+        "Content-Type": MIME[path.extname(file)] || "application/octet-stream",
+      });
       res.end(data);
     });
   })
-  .listen(PORT, () => console.log(`Serving public/ at http://localhost:${PORT}`));
+  .listen(PORT, () => console.log(`Serving docs/ at http://localhost:${PORT}`));
