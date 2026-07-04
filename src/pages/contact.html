@@ -1,0 +1,62 @@
+<!-- @title: Contact Us -->
+<section class="page-head">
+  <p class="eyebrow">Contact Us</p>
+  <h1>Tell us about your project.</h1>
+</section>
+
+<section class="contact-wrap">
+  <div class="contact-info">
+    <p>Whether you have a lot picked out or you're just starting to plan, we're happy to talk it through — no pressure, no obligation.</p>
+    <div class="contact-lines">
+      <a href="tel:+15552148722">(555) 214-8722</a>
+      <a href="mailto:hello@maven.builders">hello@maven.builders</a>
+      <span>Mon–Fri, 8am–5pm</span>
+    </div>
+  </div>
+
+  <!-- The form posts to FORM_ENDPOINT (/api/contact). Change it in one place: the action attribute below. -->
+  <form class="contact-form" action="/api/contact" method="post">
+    <label for="f-name">Name</label>
+    <input id="f-name" name="name" type="text" autocomplete="name" required>
+
+    <label for="f-phone">Phone number</label>
+    <input id="f-phone" name="phone" type="tel" autocomplete="tel" required>
+
+    <label for="f-email">Email</label>
+    <input id="f-email" name="email" type="email" autocomplete="email" required>
+
+    <label for="f-message">Message</label>
+    <textarea id="f-message" name="message" rows="6" required></textarea>
+
+    <button class="btn btn-primary" type="submit">Send message</button>
+    <p class="form-note" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+// Progressive enhancement: submit without leaving the page. Falls back to a normal POST if JS is off.
+(function () {
+  var form = document.querySelector(".contact-form");
+  var note = form.querySelector(".form-note");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    fetch(form.action, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      note.textContent = "Thanks — we'll be in touch within one business day.";
+      note.className = "form-note ok";
+    }).catch(function () {
+      note.textContent = "Something went wrong. Please try again, or call us at (555) 214-8722.";
+      note.className = "form-note err";
+    }).finally(function () {
+      btn.disabled = false;
+    });
+  });
+})();
+</script>

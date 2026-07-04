@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us — Maven Builders, LLC</title>
+<meta name="description" content="Maven Builders, LLC — family-run new home construction. Honest timelines, transparent pricing, craftsmanship that lasts.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Source+Serif+4:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">
+    <svg class="brand-mark" viewBox="64 236 212 278" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M169.5 243 L268 306.5 L268 439.5 L169.5 507 L71 439.5 L71 306.5 Z M169.5 277 L101.5 321.5 L128.5 341 L169.5 315 L210.5 341 L237.5 321.5 Z M169.5 349 L150.5 360 L169.5 375 L188.5 360 Z M98.5 352.5 L98.5 439 L127.5 459 L127.5 399 L169.5 434 L211.5 399 L211.5 459 L240.5 439 L240.5 352.5 L169.5 409 Z"></path></svg>
+    <span class="brand-name">MAVEN<br>BUILDERS</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="about.html">About Us</a>
+    <a class="nav-link" href="testimonials.html">Testimonials</a>
+    <a class="nav-cta" href="contact.html">Contact Us</a>
+  </nav>
+</header>
+
+<main>
+<section class="page-head">
+  <p class="eyebrow">Contact Us</p>
+  <h1>Tell us about your project.</h1>
+</section>
+
+<section class="contact-wrap">
+  <div class="contact-info">
+    <p>Whether you have a lot picked out or you're just starting to plan, we're happy to talk it through — no pressure, no obligation.</p>
+    <div class="contact-lines">
+      <a href="tel:+15552148722">(555) 214-8722</a>
+      <a href="mailto:hello@maven.builders">hello@maven.builders</a>
+      <span>Mon–Fri, 8am–5pm</span>
+    </div>
+  </div>
+
+  <!-- The form posts to FORM_ENDPOINT (/api/contact). Change it in one place: the action attribute below. -->
+  <form class="contact-form" action="/api/contact" method="post">
+    <label for="f-name">Name</label>
+    <input id="f-name" name="name" type="text" autocomplete="name" required>
+
+    <label for="f-phone">Phone number</label>
+    <input id="f-phone" name="phone" type="tel" autocomplete="tel" required>
+
+    <label for="f-email">Email</label>
+    <input id="f-email" name="email" type="email" autocomplete="email" required>
+
+    <label for="f-message">Message</label>
+    <textarea id="f-message" name="message" rows="6" required></textarea>
+
+    <button class="btn btn-primary" type="submit">Send message</button>
+    <p class="form-note" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+// Progressive enhancement: submit without leaving the page. Falls back to a normal POST if JS is off.
+(function () {
+  var form = document.querySelector(".contact-form");
+  var note = form.querySelector(".form-note");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    fetch(form.action, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      note.textContent = "Thanks — we'll be in touch within one business day.";
+      note.className = "form-note ok";
+    }).catch(function () {
+      note.textContent = "Something went wrong. Please try again, or call us at (555) 214-8722.";
+      note.className = "form-note err";
+    }).finally(function () {
+      btn.disabled = false;
+    });
+  });
+})();
+</script>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="64 236 212 278" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M169.5 243 L268 306.5 L268 439.5 L169.5 507 L71 439.5 L71 306.5 Z M169.5 277 L101.5 321.5 L128.5 341 L169.5 315 L210.5 341 L237.5 321.5 Z M169.5 349 L150.5 360 L169.5 375 L188.5 360 Z M98.5 352.5 L98.5 439 L127.5 459 L127.5 399 L169.5 434 L211.5 399 L211.5 459 L240.5 439 L240.5 352.5 L169.5 409 Z"></path></svg>
+      <div>
+        <div class="footer-name">Maven Builders, LLC</div>
+        <div class="footer-tag">New home construction</div>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="footer-contact">
+      <a href="tel:+15552148722">(555) 214-8722</a>
+      <a href="mailto:hello@maven.builders">hello@maven.builders</a>
+    </div>
+  </div>
+  <div class="footer-legal">© 2026 Maven Builders, LLC. All rights reserved.</div>
+</footer>
+</body>
+</html>

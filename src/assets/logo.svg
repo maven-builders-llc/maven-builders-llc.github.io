@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 768" width="768" height="768">
+  <defs>
+    
+  </defs>
+
+  
+  <rect x="0" y="0" width="768" height="768" fill="#FCEDD8"></rect>
+
+  
+  <path fill="#002652" fill-rule="evenodd" d="&#xA;    M169.5 243 L268 306.5 L268 439.5 L169.5 507 L71 439.5 L71 306.5 Z&#xA;    M169.5 277 L101.5 321.5 L128.5 341 L169.5 315 L210.5 341 L237.5 321.5 Z&#xA;    M169.5 349 L150.5 360 L169.5 375 L188.5 360 Z&#xA;    M98.5 352.5 L98.5 439 L127.5 459 L127.5 399 L169.5 434 L211.5 399 L211.5 459 L240.5 439 L240.5 352.5 L169.5 409 Z"></path>
+
+  
+  <text x="311" y="353" font-family="Roboto Slab, Georgia, serif" font-weight="700" font-size="101" fill="#002652" textLength="370" lengthAdjust="spacingAndGlyphs">MAVEN</text>
+  <text x="311" y="429" font-family="Roboto Slab, Georgia, serif" font-weight="700" font-size="72" fill="#002652" textLength="390" lengthAdjust="spacingAndGlyphs">BUILDERS,</text>
+  <text x="451" y="488" font-family="Roboto Slab, Georgia, serif" font-weight="700" font-size="50" fill="#002652" textLength="90" lengthAdjust="spacingAndGlyphs">LLC</text>
+</svg>
